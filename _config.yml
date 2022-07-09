@@ -137,7 +137,7 @@ collections:
 
 defaults:
   - scope:
-      path: ''          # An empty string here means all files in the project
+      path: 'archenemy1996.github.io/tree/main/_posts'          # An empty string here means all files in the project
       type: posts
     values:
       layout: post
