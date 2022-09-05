@@ -76,3 +76,11 @@ isbn           | integer                     |
 ```
 
 ### Normalizing a database
+
+Separating this data into two tables is called normalizing the database. Normalizing is the process of organizing data effectively in tables. In our example above, adding multiple columns lets the user get to the same information from both columns. However, it restricts future growth. On the other hand, adding multiple records results in duplicate data, but permits data in normal form and future growth.
+
+> What is "Normal Form"
+
+As we worked through the above DB design, our second example was a denormalized database. We added an additional column to include data and did not allow for expansion of authors for a book. Our first example, even though it had duplicate records for the same book, is referred to as First Normal Form.Normal form is a term used in database theory. Databases can be 1NF (First Normal Form), 2NF (Second Normal Form), 3NF (Third Normal Form) or BCNF also knows as 3.5NF or Boyce–Codd Normal Form and so on. The higher the normal form, the less likely a database will have inconsistencies. In most cases, 3NF is considered good enough.
+
+
