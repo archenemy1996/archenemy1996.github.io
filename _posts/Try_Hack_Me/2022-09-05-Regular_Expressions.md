@@ -81,4 +81,10 @@ Match all of the following filenames: File1, File2, file3, file4, file5, File7, 
 Match all of the filenames of question 4, except "File7" (use the hat symbol)  
 <b> Answer </b> : `[Ff]ile[^7]`
 
-# Task : Wildcards and optional characters
+# Task 3 : Wildcards and optional characters
+
+The wildcard that is used to match any single character (except the line break) is the `.` dot. That means that a.c will match `aac`, `abc`, `a0c`, `a!c`, and so on.
+
+Also, you can set a character as optional in your pattern using the `?` question mark. That means that `abc?` will match `ab` and `abc`, since the `c` is optional.
+
+*Note*: If you want to search for . `a` literal dot, you have to escape it with a `\` reverse slash. That means that `a.c` will match `a.c`, but also `abc`, `a@c`, and so on. But `a\.c` will match just `a.c`.
