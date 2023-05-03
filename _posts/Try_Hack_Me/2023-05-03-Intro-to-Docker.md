@@ -48,5 +48,34 @@ By running this command, we are downloading the latest version of the image titl
 
 <table class="table table-bordered"><tbody><tr><td><b>Docker Image</b></td><td><b>Tag</b></td><td><b>Command Example</b></td><td><b>Explanation</b></td></tr><tr><td>ubuntu</td><td>latest</td><td><p>docker pull ubuntu</p><p><b>- IS THE SAME AS -</b></p><p>docker pull ubuntu:latest</p></td><td><p>This command will pull the latest version of the "ubuntu" image. If no tag is specified, Docker will assume you want the "latest" version if no tag is specified.</p><p>It is worth remembering that you do not always want the "latest". This image is quite literally the "latest" in the sense it will have the most recent changes. This could either fix or break your container.</p></td></tr><tr><td>ubuntu</td><td>22.04</td><td>docker pull ubuntu:22.04</td><td>This command will pull version "22.04 (Jammy)" of the "ubuntu" image.<br></td></tr><tr><td>ubuntu</td><td>20.04</td><td>docker pull ubuntu:20.04</td><td>This command will pull version "20.04 (Focal)" of the "ubuntu" image.</td></tr><tr><td>ubuntu</td><td>18.04</td><td>docker pull ubuntu:18.04</td><td><p>This command will pull version "18.04 (Bionic)" of the "ubuntu" image.</p></td></tr></tbody></table>
 
+When specifying a tag, you must include a colon `:` between the image `name` and `tag`, for example, `ubuntu:22.04 (image:tag)`. Don’t forget about tags `-` we will return to these in a future task!
+
+### Docker Image x/y/z
+The docker image command, with the appropriate option, allows us to manage the images on our local system. To list the available options, we can simply do docker image to see what we can do. I’ve done this for you in the terminal below:
+
+```bash 
+cmnatic@thm:~$ docker image
+
+Usage:  docker image COMMAND
+
+Manage images
+
+Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+Run 'docker image COMMAND --help' for more information on a command.
+```
+
 
 
