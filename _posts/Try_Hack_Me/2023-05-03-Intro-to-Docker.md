@@ -46,5 +46,16 @@ For example, `docker pull nginx`. Docker must know where to get this image (such
 Continuing with our example above, let’s download this Nginx image! using `docker pull nginx`
 By running this command, we are downloading the latest version of the image titled “nginx”. Images have these labels called tags. These tags are used to refer to variations of an image. For example, an image can have the same name but different tags to indicate a different version. I’ve provided an example of how tags are used within the table below:
 
-<table class="table table-bordered"><tbody><tr><td><b>Docker Image</b></td><td><b>Tag</b></td><td><b>Command Example</b></td><td><b>Explanation</b></td></tr><tr><td>ubuntu</td><td>latest</td><td><p>docker pull ubuntu</p><p><b>- IS THE SAME AS -</b></p><p>docker pull ubuntu:latest</p></td><td><p>This command will pull the latest version of the "ubuntu" image. If no tag is specified, Docker will assume you want the "latest" version if no tag is specified.</p><p>It is worth remembering that you do not always want the "latest". This image is quite literally the "latest" in the sense it will have the most recent changes. This could either fix or break your container.</p></td></tr><tr><td>ubuntu</td><td>22.04</td><td>docker pull ubuntu:22.04</td><td>This command will pull version "22.04 (Jammy)" of the "ubuntu" image.<br></td></tr><tr><td>ubuntu</td><td>20.04</td><td>docker pull ubuntu:20.04</td><td>This command will pull version "20.04 (Focal)" of the "ubuntu" image.</td></tr><tr><td>ubuntu</td><td>18.04</td><td>docker pull ubuntu:18.04</td><td><p>This command will pull version "18.04 (Bionic)" of the "ubuntu" image.</p></td></tr></tbody></table>
+<table>
+	<tbody>
+		<tr>
+			<td><b>Docker Image</b></td>
+			<td><b>Tag</b></td><td>
+				<b>Command Example</b></td>
+				<td><b>Explanation</b></td></tr>
+				<tr><td>ubuntu</td><td>latest</td>
+					<td><p>docker pull ubuntu</p><p><b>- IS THE SAME AS -</b></p><p>docker pull ubuntu:latest</p></td><td><p>This command will pull the latest version of the "ubuntu" image. If no tag is specified, Docker will assume you want the "latest" version if no tag is specified.</p><p>It is worth remembering that you do not always want the "latest". This image is quite literally the "latest" in the sense it will have the most recent changes. This could either fix or break your container.</p></td></tr><tr><td>ubuntu</td><td>22.04</td><td>docker pull ubuntu:22.04</td><td>This command will pull version "22.04 (Jammy)" of the "ubuntu" image.<br></td></tr><tr><td>ubuntu</td><td>20.04</td><td>docker pull ubuntu:20.04</td><td>This command will pull version "20.04 (Focal)" of the "ubuntu" image.</td></tr><tr><td>ubuntu</td><td>18.04</td><td>docker pull ubuntu:18.04</td><td><p>This command will pull version "18.04 (Bionic)" of the "ubuntu" image.</p></td>
+</tr>
+</tbody>
+</table>
 
