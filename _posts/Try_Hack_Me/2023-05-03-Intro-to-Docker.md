@@ -22,7 +22,7 @@ Namely, by the end of the room, we will be familiar with the following:
  - How Dockerfiles are used to build containers, using Docker Compose to orchestrate multiple containers.
  - Applying the knowledge gained from the room into the practical element at the end.
 
- ### Questions 
+### Questions 
 
  - Mark complete the question
 
@@ -224,3 +224,234 @@ __Q__ Now, how would we list all containers (including stopped)?
 
 
 # Task 4 : Intro to Dockerfiles
+
+Dockerfiles play an essential role in Docker. Dockerfiles is a formatted text file which essentially serves as an instruction manual for what containers should do and ultimately assembles a Docker image.
+
+You use Dockerfiles to contain the commands the container should execute when it is built. To get started with Dockerfiles, we need to know some basic syntax and instructions. Dockerfiles are formatted in the following way:
+
+`INSTRUCTION argument`
+
+First, let’s cover some essential instructions:
+
+<table class="table table-bordered"><tbody><tr><td><b>Instruction</b></td><td><b>Description</b></td><td><b>Example</b></td></tr><tr><td>FROM</td><td>This instruction sets a build stage for the container as well as setting the base image (operating system). All Dockerfiles must start with this.</td><td>FROM ubuntu</td></tr><tr><td>RUN</td><td>This instruction will execute commands in the container within a new layer.</td><td>RUN whoami</td></tr><tr><td>COPY</td><td><p>This instruction copies files from the local system to the working directory in the container (the syntax is similar to the <code>cp</code> command).</p></td><td>COPY /home/cmnatic/myfolder/app/</td></tr><tr><td>WORKDIR</td><td><p>This instruction sets the working directory of the container. (similar to using <code>cd</code><span> on <a class="qFJxbyqI glossary-term" onclick="initPopOver('Linux', 'qFJxbyqI')">Linux</a>).</span></p></td><td>WORKDIR /<br>(sets to the root of the filesystem in the container)</td></tr><tr><td>CMD</td><td>This instruction determines what command is run when the container starts (you would use this to start a service or application).</td><td>CMD /bin/sh -c script.sh</td></tr><tr><td>EXPOSE</td><td>This instruction is used to tell the person who runs the container what port they should publish when running the container.</td><td><p>EXPOSE 80</p><p>(tells the person running the container to publish to port 80 i.e. <code>docker run -p 80:80</code>)</p></td></tr></tbody></table>
+
+Now that we understand the core instructions that make up a Dockerfile, let’s see a working example of a Dockerfile. But first, I’ll explain what I want the container to do:
+
+ 1. Use the “Ubuntu” (version 22.04) operating system as the base.
+ 2. Set the working directory to be the root of the container.
+ 3. Create the text file “helloworld.txt”.
+
+```bash
+# THIS IS A COMMENT
+# Use Ubuntu 22.04 as the base operating system of the container
+FROM ubuntu:22.04
+
+# Set the working directory to the root of the container
+WORKDIR / 
+
+# Create helloworld.txt
+RUN touch helloworld.txt
+```
+Remember, the commands that you can run via the `RUN` instruction will depend on the operating system you use in the `FROM` instruction. (In this example, I have chosen Ubuntu. It’s important to remember that the operating systems used in containers are usually very minimal. I.e., don’t expect a command to be there from the start (even commands like *curl, ping, etc.*, may need to be installed.)
+
+### Building Your First Container
+
+Once we have a Dockerfile, we can create an image using the `docker build` command. This command requires a few pieces of information:
+
+ - Whether or not you want to name the image yourself (we will use the `-t` (tag) argument).
+ - The name that you are going to give the image.
+ - The location of the Dockerfile you wish to build with.
+
+I’ll provide the scenario and then explain the relevant command. Let’s say we want to build an image - let’s fill in the two required pieces of information listed above:
+ - We are going to name it ourselves, so we are going to use the `-t` argument.
+ - We want to name the image.
+ - The Dockerfile is located in our current working directory (`.`).
+
+The Dockerfile we are going to build is the following:
+
+```bash
+# Use Ubuntu 22.04 as the base operating system of the container
+FROM ubuntu:22.04
+
+# Set the working directory to the root of the container
+WORKDIR / 
+
+# Create helloworld.txt
+RUN touch helloworld.txt
+```
+
+The command would look like so: `docker build -t helloworld .` (__we are using the dot to tell Docker to look in our working directory__). If we have filled out the command right, we will see Docker starting to build the image:
+
+_A terminal showing the building process of the "helloworld" image_
+
+```bash
+cmnatic@thm:~$ docker build -t helloworld .
+Sending build context to Docker daemon  4.778MB
+Step 1/3 : FROM ubuntu:22.04
+22.04: Pulling from library/ubuntu
+2b55860d4c66: Pull complete
+Digest: sha256:20fa2d7bb4de7723f542be5923b06c4d704370f0390e4ae9e1c833c8785644c1
+Status: Downloaded newer image for ubuntu:22.04
+ ---> 2dc39ba059dc
+Step 2/3 : WORKDIR /
+ ---> Running in 64d497097f8a
+Removing intermediate container 64d497097f8a
+ ---> d6bd1253fd4e
+Step 3/3 : RUN touch helloworld.txt
+ ---> Running in 54e94c9774be
+Removing intermediate container 54e94c9774be
+ ---> 4b11fc80fdd5
+Successfully built 4b11fc80fdd5
+Successfully tagged helloworld:latest
+cmnatic@thm:~$
+```
+Great! That looks like a success. Let’s use `docker image ls` to now see if this image has been built:
+
+```bash
+Using the "docker image ls" command to confirm whether or not our image has successfully built
+cmnatic@thm:~$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+helloworld   latest    4b11fc80fdd5   2 minutes ago   77.8MB
+ubuntu       22.04     2dc39ba059dc   10 days ago     77.8MB
+cmnatic@thm:~$
+```
+
+Note: Whatever base operating system you list in the FROM instruction in the Dockerfile will also be downloaded. This is why we can see two images:
+
+ 1. helloworld (our image).
+ 2. ubuntu (the base operating system used in our image).
+
+You will now be able to use this image in a container. Refer to the “Running Your First Container” task to remind you how to start a container.
+
+### Levelling up Our Dockerfile
+
+Let’s level up our Dockerfile. So far, our container will only create a file - that’s not very useful! In the following Dockerfile, I am going to:
+
+ 1. Use Ubuntu 22.04 as the base operating system for the container.
+ 2. Install the “apache2” web server.
+ 3. Add some networking. As this is a web server, we will need to be able to connect to the container over the network somehow. I will achieve this by using the EXPOSE instruction and telling the container to expose port 80.
+ 4. Tell the container to start the “apache2” service at startup. Containers do not have service managers like systemd (this is by design - it is bad practice to run multiple applications in the same container. For example, this container is for the apache2 web server - and the apache2 web server only).
+
+ ```bash
+ # THIS IS A COMMENT
+FROM ubuntu:22.04
+
+# Update the APT repository to ensure we get the latest version of apache2
+RUN apt-get update -y 
+
+# Install apache2
+RUN apt-get install apache2 -y
+
+# Tell the container to expose port 80 to allow us to connect to the web server
+EXPOSE 80 
+
+# Tell the container to run the apache2 service
+CMD ["apache2ctl", "-D","FOREGROUND"]
+```
+
+For reference, the command to build this would be docker `build -t webserver` . (assuming the Dockerfile is in the same directory as where you run the command from). Once starting the container with the appropriate options (`docker run -d --name webserver -p 80:80  webserver`), we can navigate to the IP address of our local machine in our browser!
+
+__The web server works! Currently, Apache2 is serving the default files because we have not added our own to the container.__
+
+### Optimising Our Dockerfile
+
+There’s certainly an art to Docker - and it doesn’t stop with Dockerfiles! Firstly, we need to ask ourselves why is it essential to optimise our Dockerfile? Bloated Dockerfiles are hard to read and maintain and often use a lot of unnecessary storage! For example, you can reduce the size of a docker image (and reduce build time!) using a few ways:
+
+ - Only installing the essential packages. What’s nice about containers is that they’re practically empty from the get-go - we have complete freedom to decide what we want.
+ - Removing cached files (such as APT cache or documentation installed with tools). The code within a container will only be executed once (on build!), so we don’t need to store anything for later use.
+ - Using minimal base operating systems in our `FROM` instruction. Even though operating systems for containers such as Ubuntu are already pretty slim, consider using an even more stripped-down version (i.e. `ubuntu:22.04-minimal`). Or, for example, using Alpine (which can be as small as 5.59MB!).
+ - Minimising the number of layers - I’ll explain this further below.
+
+Each instruction (I.E. `FROM`, `RUN`, etc.) is run in its own layer. Layers increase build time! The objective is to have as few layers as possible. For example, try chaining commands from RUN together like so:
+
+__Before:__
+```bash
+FROM ubuntu:latest
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install apache2 -y
+RUN apt-get install net-tools -y
+```
+
+A terminal showing five layers of a Dockerfile being built
+cmnatic@thm:~$ docker build -t before .
+
+```bash
+Step 2/5 : RUN apt-get update -y
+ ---> Using cache
+ ---> 446962612d20
+Step 3/5 : RUN apt-get upgrade -y
+ ---> Running in 8bed81c695f4
+--omitted for brevity--
+cmnatic@thm:~$
+```
+
+__After:__
+```bash
+FROM ubuntu:latest
+RUN apt-get update -y && apt-get upgrade -y && apt-get install apache2 -y && apt-get install net-tools
+```
+
+```bash
+cmnatic@thm:~$ docker build -t after .
+Sending build context to Docker daemon   4.78MB
+Step 1/2 : FROM ubuntu
+ ---> 2dc39ba059dc
+Step 2/2 : RUN apt-get update -y && apt-get upgrade -y && apt-get install apache2 -y && apt-get install net-tools
+ ---> Running in a4d4943bcf04
+--omitted for brevity--
+cmnatic@thm:~$
+```
+
+Note here how there are now only two build steps (this will be two layers, making the build much quicker). This is just a tiny example of a Dockerfile, so the build time will not be so drastic, but in much larger Dockerfiles - reducing the number of layers will have a fantastic performance increase during the build.
+
+
+## Questions and Answers:
+
+__Q__ What instruction would we use to specify what base image the container should be using?
+ - __A__ `FROM`
+
+__Q__ What instruction would we use to tell the container to run a command?
+ - __A__ `RUN`
+
+__Q__ What docker command would we use to build an image using a Dockerfile?
+ - __A__ `build`
+
+__Q__ Let's say we want to name this image; what argument would we use?
+ - __A__ `-t`
+ 
+
+# Task 5 : Intro to Docker Compose
+
+Let’s first understand what Docker Compose is and why it’s worth understanding. So far, we’ve only interacted with containers individually. Docker Compose, in summary, allows multiple containers (or applications) to interact with each other when needed while running in isolation from one another.
+
+You may have noticed a problem with Docker so far. More often than not, applications require additional services to run, which we cannot do in a single container. For example, modern - dynamic - websites use services such as databases and a web server. For the sake of this task, we will consider each application as a “microservice”.
+
+While we can spin up multiple containers or “microservices” individually and connect them, doing so one by one is cumbersome and inefficient. Docker Compose allows us to create these “microservices” as one singular “service”. 
+
+This illustration shows how containers are deployed together using Docker Compose Vs. Docker:
+
+![illustration docker and docker compose](/assets/img/002-Intro-to-Containerisation.png "illustration docker and docker compose")
+
+Before we demonstrate Docker Compose, let’s cover the fundamentals of using Docker Compose.
+ - We need Docker Compose installed (it does not come with Docker by default). Installing it is out of scope for this room, as it changes depending on your operating system and other factors. You can check out the installation documentation here.
+ - We need a valid docker-compose.yml file - we will come onto this shortly.
+ - A fundamental understanding of using Docker Compose to build and manage containers.
+
+I have put some of the essential Docker Compose commands into the table below:
+
+<table class="table table-bordered"><tbody><tr><td><b>Command</b></td><td><b>Explanation</b></td><td><b>Example</b></td></tr><tr><td>up</td><td>This command will (re)create/build and start the containers specified in the compose file.</td><td><p><code>docker-compose up</code></p></td></tr><tr><td>start</td><td>This command will start (but requires the containers already being built) the containers specified in the compose file.<br></td><td><p><code>docker-compose start</code><br></p></td></tr><tr><td>down</td><td>This command will stop and <b>delete</b>&nbsp;the containers specified in the compose file.<br></td><td><p><code>docker-compose down</code><br></p></td></tr><tr><td>stop</td><td>This command will stop (<b>not</b> delete) the containers specified in the compose file.<br></td><td><p><code>docker-compose stop</code><br></p></td></tr><tr><td>build</td><td>This command will build (but will not start) the containers specified in the compose file.<br></td><td><p><code>docker-compose build</code><br></p></td></tr></tbody></table>
+
+
+### A Showcase of Docker Compose
+
+With that said, let’s look into how we can use Docker Compose ourselves. In this scenario, I am going to assume the following requirements:
+
+An E-commerce website running on Apache
+This E-commerce website stores customer information in a MySQL database
+Now, we could manually run the two containers via the following:
+
+Creating the network between the two containers: `docker network create ecommerce`
+Running the Apache2 webserver container: `docker run -p 80:80 --name webserver --net ecommerce webserver`
+Running the MySQL Database server: `docker run --name database --net ecommerce webserver`
+
