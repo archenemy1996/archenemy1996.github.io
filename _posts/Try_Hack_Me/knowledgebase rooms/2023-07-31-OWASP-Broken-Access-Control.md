@@ -7,6 +7,6 @@ featured-image:  bash_image/icon.jpeg
 featured-image-alt: Bash
 ---
 
-It's a write-up about the room : [Try Hack Me - Room : Bash Scripting](https://tryhackme.com/room/bashscripting)
+It's a write-up about the room : [Try Hack Me - Room : OWASP Broken Access Control](https://tryhackme.com/room/bashscripting)
 
   - # Task 1 : Introduction
