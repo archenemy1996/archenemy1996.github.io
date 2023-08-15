@@ -11,15 +11,14 @@ It's a write-up about the room : [Try Hack Me - Room : Regular Expressions](http
 
 # Task 1 : Introduction
 
-- What are regular expression?
-Regular expressions (or Regex) are patterns of text that you define to search documents and match exactly what you're looking for.
+- What are regular expression?  
+Regular expressions (or Regex) are patterns of text that we define to search documents and match exactly what we are looking for.
 
-- Why should we learn them?
-Even if you won't need them sooner or later, it's a great tool to know how to use. It will make you more capable in CTF's, and potentially a better developer if that's a goal you have. You spend a little time learning it and save yourself lots of time in the long run by using it.
+- Why should we learn them?  
+We will likely need them sooner or later, it's a great tool to know how to use. It will make us more capable in CTF's, and potentially a better developer.
 
-- Goals - 
-In this room we will create a text file with some test paragraphs (in a Unix machine) and then use egrep <pattern> <file> to see what matches and what doesn't, or
-use an online editor like `https://regexr.com/` You can add your own text in the "Text" field, and then type your expressions (patterns) in the "Expression" field.
+- Goals  
+In this room we will create a text file with some test paragraphs (in a Unix machine) and then use egrep <pattern> <file> to see what matches and what doesn't, or we can use an online editor like `https://regexr.com/` we can add our own text in the "Text" field, and then type our expressions (patterns) in the "Expression" field.
 
 # Task 2 : Charsets
 
