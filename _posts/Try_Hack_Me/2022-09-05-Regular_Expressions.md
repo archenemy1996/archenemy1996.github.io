@@ -121,7 +121,9 @@ Match bat, bats, hat, hats, but not rat or rats (use the hat symbol)
 
 # Task 4 : Metacharacters and repetitions  
 
-There are easier ways to match bigger charsets. For example, \d is used to match any single digit. Here's a reference:
+There are easier ways to match bigger charsets. For example, `\d` is used to match any single digit. 
+
+Here's a reference:  
 `\d` matches a digit, like `9 ` 
 `\D` matches a non-digit, like `A` or `@`  
 `\w` matches an alphanumeric character, like a or `3`  
@@ -140,3 +142,53 @@ Here's a reference for each repetition along with how many times it matches the 
 `{2,}` - `2` or more times.  
 `*` - `0` or more times.  
 `+` - `1` or more times.  
+
+### Answer the questions below 
+
+<b> Question </b> :
+Match the following word: catssss  
+<b> Answer </b> : __`cats{4}`__  
+
+<b> Question </b> :
+Match all of the following words (use the * sign): Cat, cats, catsss  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match all of the following sentences (use the + sign): regex go br, regex go brrrrrr  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match all of the following filenames: ab0001, bb0000, abc1000, cba0110, c0000 (don't use a metacharacter)  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match all of the following filenames: File01, File2, file12, File20, File99  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match all of the following folder names: kali tools, kali     tools  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match all of the following filenames: notes~, stuff@, gtfob#, lmaoo!  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match the string in quotes (use the * sign and the \s, \S metacharacters): "2f0h@f0j0%!     a)K!F49h!FFOK"  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match every 9-character string (with letters, numbers, and symbols) that doesn't end in a "!" sign  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+Match all of these filenames (use the + symbol): .bash_rc, .unnecessarily_long_filename, and note1    
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+  
+<b> Answer </b> : __``__  
+
+<b> Question </b> :
+  
+<b> Answer </b> : __``__  
