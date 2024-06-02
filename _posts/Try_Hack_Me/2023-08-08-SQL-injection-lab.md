@@ -146,3 +146,43 @@ The `%27` becomes the single quote `(')` character and `%20` becomes a blank spa
 When submitting the login form for this challenge, it uses the HTTP POST method. It is possible to either remove/disable the JavaScript validating the login form or submit a valid request and intercept it with a proxy tool such as Burp Suite and modify it:
 
 ![SQL Injection 4: POST Injection burp](/assets/img/SQL%20Injection%20LAB/SQL%20Injection%204%20post.png)
+
+### Questions:
+
+## What is the flag for SQL Injection 1: Input Box Non-String?
+
+Answer: THM{dccea429d73d4a6b4f117ac64724f460}
+
+## What is the flag for SQL Injection 2: Input Box String?
+
+Answer: THM{356e9de6016b9ac34e02df99a5f755ba}
+
+## What is the flag for SQL Injection 3: URL Injection?
+
+Answer: THM{645eab5d34f81981f5705de54e8a9c36}
+
+## What is the flag for SQL Injection 4: POST Injection?
+
+Answer: THM{727334fd0f0ea1b836a8d443f09dc8eb}
+
+# Task 3 : Introduction to SQL Injection: Part 2  
+
+## SQL Injection Attack on an UPDATE Statement
+
+If a SQL injection occurs on an UPDATE statement, the damage can be much more severe as it allows one to change records within the database. In the employee management application, there is an edit profile page as depicted in the following figure.  
+
+![SQL Injection Update sqli](/assets/img/SQL%20Injection%20LAB/edit_admin_sqli.png)
+
+This edit page allows the employees to update their information, but they do not have access to all the available fields, and the user can only change their information. If the form is vulnerable to SQL injection, an attacker can bypass the implemented logic and update fields they are not supposed to, or for other users.  
+
+![SQL Injection Update sqli](/assets/img/SQL%20Injection%20LAB/code_sqli_update.png)
+
+We will now enumerate the database via the UPDATE statement on the profile page. We will assume we have no prior knowledge of the database. By looking at the web page's source code, we can identify potential column names by looking at the name attribute. The columns don't necessarily need to be named this, but there is a good chance of it, and column names such as "email" and "password" are not uncommon and can easily be guessed.  
+
+To confirm that the form is vulnerable and that we have working column names, we can try to inject something similar to the code below into the nickName and email field:
+
+```sql
+asd',nickName='test',email='hacked
+```
+
+When injecting the malicious payload into the nickName field, only the nickName is updated. When injected into the email field, both fields are updated:
